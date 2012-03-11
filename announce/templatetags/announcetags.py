@@ -21,7 +21,7 @@ def announce_js_path():
 
 
 @register.simple_tag
-def crier_js():
+def announce_js():
     """
     returns the needed HTML tags for including announce.js and its dependency
     (socket.io) in the client's browser. make sure that `ANNOUNCE_CLIENT_ADDR`
