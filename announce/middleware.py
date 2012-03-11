@@ -76,7 +76,7 @@ class AnnounceCookieMiddleware(object):
             response.delete_cookie(
                 announce_cookie_name, path=path, domain=domain
             )
-        return response
+            return response
         
         # Check if we have the cookie already set:
         if self.has_announce_cookie(request):
