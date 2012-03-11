@@ -3,6 +3,8 @@ import socket
 from django.conf import settings
 from django.utils import simplejson as json
 
+__version__ = '0.1.0'
+
 class AnnounceClient(object):
     """
     A really basic HTTP client to the Announce.js internal interface.
