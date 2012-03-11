@@ -1,8 +1,8 @@
 # Django-Announce: an Announce.js client for Django.
 
-Announce.js is a node.js + socket.io server used for adding realtime notifications to your existing web application.
+Announce.js is a node.js + socket.io server used for adding real-time notifications to your existing web application.
 This project adds easy Announce.js integration for Django, thus enabling you to easily
-add realtime notifications to you exiting Django applications.
+add real-time notifications to you exiting Django applications.
 
 Before installing and using the client, make sure you setup Announce.js using [this guide](https://github.com/ozkatz/announce.js/blob/master/README.md "announce.js Installation").
 
