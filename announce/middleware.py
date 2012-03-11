@@ -78,6 +78,10 @@ class AnnounceCookieMiddleware(object):
             )
             return response
         
+        # skip unauthenticated users
+        if not request.user.is_authenticated():
+            return response
+
         # Check if we have the cookie already set:
         if self.has_announce_cookie(request):
             return response
