@@ -89,15 +89,12 @@ class AnnounceClient(object):
         response = self._do_request('POST', path, data, headers)
         response.read()
 
-    def broadcast_room(self, channel, data, exclude_list=None):
+    def broadcast_room(self, channel, data):
         """
         Emitts the message over the specified channel to all members
         of the group.
         """
         path = '/emit/room/%s' % (channel)
-        if exclude_list and len(exclude_list) > 0:
-            exclude_string = ','.join(exclude_list)
-            path += '/exclude/%s' % (exclude_string)
         headers = {'Content-Type' : 'application/json'}
         data = self.json.dumps(data)
         response = self._do_request('POST', path, data, headers)
