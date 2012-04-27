@@ -1,9 +1,7 @@
 import httplib
 import socket
-from django.conf import settings
-from django.utils import simplejson as json
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 class AnnounceClient(object):
     """
@@ -12,7 +10,10 @@ class AnnounceClient(object):
     for general use (or maybe for another python web framework)
     """
     def __init__(self):
+        from django.conf import settings
+        from django.utils import simplejson as json
         self.base_url = getattr(settings, 'ANNOUNCE_API_ADDR', 'localhost:6600')
+        self.json = json
 
     def _do_request(self, method, path, *args, **kwargs):
         # A generic wrapper around httplib.
@@ -37,7 +38,7 @@ class AnnounceClient(object):
         if not response or response.status > 399:
             return None
         try:
-            resp = json.loads(response.read())
+            resp = self.json.loads(response.read())
         except ValueError:
             return None
         if resp:
@@ -73,7 +74,7 @@ class AnnounceClient(object):
         """
         path = '/emit/user/%s/%s' % (user_id, channel)
         headers = {'Content-Type' : 'application/json'}
-        data = json.dumps(data)
+        data = self.json.dumps(data)
         response = self._do_request('POST', path, data, headers)
         response.read()
 
@@ -84,7 +85,7 @@ class AnnounceClient(object):
         """
         path = '/emit/group/%s/%s' % (group_name, channel)
         headers = {'Content-Type' : 'application/json'}
-        data = json.dumps(data)
+        data = self.json.dumps(data)
         response = self._do_request('POST', path, data, headers)
         response.read()
 
@@ -98,7 +99,7 @@ class AnnounceClient(object):
             exclude_string = ','.join(exclude_list)
             path += '/exclude/%s' % (exclude_string)
         headers = {'Content-Type' : 'application/json'}
-        data = json.dumps(data)
+        data = self.json.dumps(data)
         response = self._do_request('POST', path, data, headers)
         response.read()
 
@@ -108,6 +109,6 @@ class AnnounceClient(object):
         """
         path = '/emit/broadcast/%s' % (channel)
         headers = {'Content-Type' : 'application/json'}
-        data = json.dumps(data)
+        data = self.json.dumps(data)
         response = self._do_request('POST', path, data, headers)
         response.read()
