@@ -3,7 +3,7 @@ import socket
 from django.conf import settings
 from django.utils import simplejson as json
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 class AnnounceClient(object):
     """
@@ -83,6 +83,20 @@ class AnnounceClient(object):
         of the group.
         """
         path = '/emit/group/%s/%s' % (group_name, channel)
+        headers = {'Content-Type' : 'application/json'}
+        data = json.dumps(data)
+        response = self._do_request('POST', path, data, headers)
+        response.read()
+
+    def broadcast_room(self, channel, data, exclude_list=None):
+        """
+        Emitts the message over the specified channel to all members
+        of the group.
+        """
+        path = '/emit/room/%s' % (channel)
+        if exclude_list and len(exclude_list) > 0:
+            exclude_string = ','.join(exclude_list)
+            path += '/exclude/%s' % (exclude_string)
         headers = {'Content-Type' : 'application/json'}
         data = json.dumps(data)
         response = self._do_request('POST', path, data, headers)
