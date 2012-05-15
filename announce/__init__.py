@@ -1,7 +1,7 @@
 import httplib
 import socket
 
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 
 class AnnounceClient(object):
     """
@@ -109,3 +109,17 @@ class AnnounceClient(object):
         data = self.json.dumps(data)
         response = self._do_request('POST', path, data, headers)
         response.read()
+
+    def get_room_status(self, channel):
+        """
+        Return information about the current status of a room.
+        (most importanly, members currently online in that room).
+        """
+        path = '/status/room/%s' % (channel)
+        response = self._do_request('GET', path)
+        data = response.read()
+        try:
+            return self.json.loads(data)
+        except ValueError:
+            return None
+
